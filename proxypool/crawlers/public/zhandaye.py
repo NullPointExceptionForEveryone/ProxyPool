@@ -4,7 +4,7 @@ from proxypool.crawlers.base import BaseCrawler
 
 
 BASE_URL = 'https://www.zdaye.com/free/{page}/'
-MAX_PAGE = 10
+MAX_PAGE = 5
 
 
 class ZhandayeCrawler(BaseCrawler):
@@ -21,7 +21,7 @@ class ZhandayeCrawler(BaseCrawler):
         doc = pq(html)
         trs = doc('#ipc tr:gt(0)').items()
         for tr in trs:
-            if tr.find('td:nth-child(6)').html().__contains__("iyes"):
+            if not tr.find('td:nth-child(6)').html().__contains__("iyes"):
                 host = tr.find('td:nth-child(1)').text()
                 port = int(tr.find('td:nth-child(2)').text())
                 yield Proxy(host=host, port=port)
